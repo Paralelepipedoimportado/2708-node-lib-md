@@ -1,12 +1,28 @@
 import fs from 'fs';
 import chalk from 'chalk';
 
-function pegaArchivo(caminhoDoArquivo) {
-    const encoding = 'utf-8';
-    fs.promises.readFile(caminhoDoArquivo, encoding)
-    .then((texto) => console.log(chalk.green(texto)))
-    .catch(trataErro)
+function trataErro(erro) {
+  console.log(erro);
+  throw new Error(chalk.red.bgBlue(erro.code, 'não há arquivos no diretório'));
 }
+
+async function pegaArchivo(caminhoDoArquivo) {
+  try {
+  const encoding = 'utf-8';
+  const texto = await fs.promises.readFile
+  (caminhoDoArquivo, encoding)
+  console.log(chalk.green(texto));
+  } catch (erro) {
+    trataErro(erro)
+  }
+}
+
+//function pegaArchivo(caminhoDoArquivo) {
+//    const encoding = 'utf-8';
+//    fs.promises.readFile(caminhoDoArquivo, encoding)
+ //   .then((texto) => console.log(chalk.green(texto)))
+ //   .catch(trataErro)
+//}
 //console.log(chalk.blue.bgRed('olá mundo'));
 
 //console.log('ola mundo');
@@ -29,3 +45,4 @@ function pegaArchivo(caminhoDoArquivo) {
 //}
 
 pegaArchivo('./arquivos/texto.md');
+pegaArchivo('./arquivos/');
